@@ -1,0 +1,11 @@
+Task 8: Find all courses with more than 3 credits
+Description: Filters courses with credits > 3 (CS302 DBMS: 4, CS304 Big Data Analytics: 4).
+
+Cypher Query:
+MATCH (c:Course) WHERE c.credits > 3 RETURN c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;
+
+Output (2 rows):
+CourseCode | CourseTitle                 | Credits | Level   
+-----------+-----------------------------+---------+---------
+CS302      | Database Management Systems | 4       | Core    
+CS304      | Big Data Analytics          | 4       | Advanced

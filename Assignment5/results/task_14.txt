@@ -1,0 +1,13 @@
+Task 14: Find all students enrolled in both Graph Analytics and another course
+Description: Retrieves students enrolled in Graph Analytics who are also taking at least one other course.
+
+Cypher Query:
+MATCH (s:Student)-[:ENROLLED_IN]->(c1:Course {courseTitle: 'Graph Analytics'}), (s)-[:ENROLLED_IN]->(c2:Course) WHERE c1 <> c2 RETURN s.studentId AS StudentID, s.name AS StudentName, c1.courseTitle AS PrimaryCourse, c2.courseTitle AS OtherCourse ORDER BY s.studentId, c2.courseTitle;
+
+Output (4 rows):
+StudentID | StudentName  | PrimaryCourse   | OtherCourse                
+----------+--------------+-----------------+----------------------------
+S101      | Aarav Sharma | Graph Analytics | Database Management Systems
+S101      | Aarav Sharma | Graph Analytics | NoSQL Databases            
+S102      | Priya Das    | Graph Analytics | Data Mining                
+S105      | Arjun Patel  | Graph Analytics | Big Data Analytics         

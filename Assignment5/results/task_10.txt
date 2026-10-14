@@ -1,0 +1,12 @@
+Task 10: Find all students enrolled in Graph Analytics
+Description: Finds all students enrolled in CS301 Graph Analytics (Aarav Sharma, Priya Das, Arjun Patel).
+
+Cypher Query:
+MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'Graph Analytics' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS CurrentSemester, c.courseTitle AS EnrolledCourse ORDER BY s.studentId;
+
+Output (3 rows):
+StudentID | StudentName  | CurrentSemester | EnrolledCourse 
+----------+--------------+-----------------+----------------
+S101      | Aarav Sharma | 5               | Graph Analytics
+S102      | Priya Das    | 5               | Graph Analytics
+S105      | Arjun Patel  | 5               | Graph Analytics

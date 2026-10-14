@@ -1,0 +1,12 @@
+Task 3: Assign properties to the ENROLLED_IN and TEACHES relationships
+Description: Verifies relationship properties (semesterEnrolled, grade on ENROLLED_IN and academicYear on TEACHES).
+
+Cypher Query:
+MATCH ()-[r:ENROLLED_IN]->() RETURN DISTINCT r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade UNION ALL MATCH ()-[r2:TEACHES]->() RETURN DISTINCT r2.academicYear AS SemesterEnrolled, 'N/A' AS Grade;
+
+Output (3 rows):
+SemesterEnrolled | Grade        
+-----------------+--------------
+5                | Not Published
+3                | Not Published
+2026-27          | N/A          

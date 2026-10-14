@@ -1,0 +1,10 @@
+Task 4: Display the complete graph
+Description: Returns all nodes and directed relationships forming the complete university graph.
+
+Cypher Query:
+MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN count(DISTINCT n) AS TotalNodes, count(r) AS TotalRelationships;
+
+Output (1 rows):
+TotalNodes | TotalRelationships
+-----------+-------------------
+14         | 26                

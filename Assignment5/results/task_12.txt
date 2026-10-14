@@ -1,0 +1,11 @@
+Task 12: Find all courses offered by the Information Technology department
+Description: Lists courses offered by IT department (CS301 Graph Analytics, CS304 Big Data Analytics).
+
+Cypher Query:
+MATCH (d:Department)-[:OFFERS]->(c:Course) WHERE d.deptName = 'Information Technology' RETURN d.deptName AS DepartmentName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;
+
+Output (2 rows):
+DepartmentName         | CourseCode | CourseTitle        | Credits | Level   
+-----------------------+------------+--------------------+---------+---------
+Information Technology | CS301      | Graph Analytics    | 3       | Advanced
+Information Technology | CS304      | Big Data Analytics | 4       | Advanced

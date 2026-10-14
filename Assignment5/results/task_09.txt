@@ -1,0 +1,11 @@
+Task 9: Retrieve the courses taught by Dr. Meera Sen
+Description: Retrieves courses taught by Dr. Meera Sen (CS302 DBMS, CS305 NoSQL Databases).
+
+Cypher Query:
+MATCH (f:Faculty {name: 'Dr. Meera Sen'})-[r:TEACHES]->(c:Course) RETURN f.name AS FacultyName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, r.academicYear AS AcademicYear ORDER BY c.courseCode;
+
+Output (2 rows):
+FacultyName   | CourseCode | CourseTitle                 | Credits | AcademicYear
+--------------+------------+-----------------------------+---------+-------------
+Dr. Meera Sen | CS302      | Database Management Systems | 4       | 2026-27     
+Dr. Meera Sen | CS305      | NoSQL Databases             | 3       | 2026-27     

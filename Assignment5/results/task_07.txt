@@ -1,0 +1,12 @@
+Task 7: Retrieve all students studying in Semester 5
+Description: Filters students who are in semester 5 (Aarav Sharma, Priya Das, Arjun Patel).
+
+Cypher Query:
+MATCH (s:Student) WHERE s.semester = 5 RETURN s.studentId AS StudentID, s.name AS Name, s.semester AS Semester, s.email AS Email ORDER BY s.studentId;
+
+Output (3 rows):
+StudentID | Name         | Semester | Email         
+----------+--------------+----------+---------------
+S101      | Aarav Sharma | 5        | aarav@univ.edu
+S102      | Priya Das    | 5        | priya@univ.edu
+S105      | Arjun Patel  | 5        | arjun@univ.edu

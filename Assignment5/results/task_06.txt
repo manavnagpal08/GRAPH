@@ -1,0 +1,13 @@
+Task 6: Display all relationship types and verify their directions
+Description: Confirms source and target labels for all 4 relationship types to verify directionality.
+
+Cypher Query:
+MATCH (a)-[r]->(b) RETURN labels(a)[0] AS SourceNode, type(r) AS RelationshipType, labels(b)[0] AS TargetNode, count(r) AS Count ORDER BY RelationshipType, SourceNode;
+
+Output (4 rows):
+SourceNode | RelationshipType | TargetNode | Count
+-----------+------------------+------------+------
+Student    | BELONGS_TO       | Department | 5    
+Student    | ENROLLED_IN      | Course     | 11   
+Department | OFFERS           | Course     | 5    
+Faculty    | TEACHES          | Course     | 5    

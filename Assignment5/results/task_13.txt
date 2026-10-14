@@ -1,0 +1,11 @@
+Task 13: Retrieve all students enrolled in NoSQL Databases along with their semester and grade
+Description: Retrieves students in CS305 NoSQL Databases with enrollment semester and grade (Aarav Sharma: Sem 5, Sneha Roy: Sem 3).
+
+Cypher Query:
+MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'NoSQL Databases' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS StudentSemester, r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade, c.courseTitle AS CourseTitle ORDER BY s.studentId;
+
+Output (2 rows):
+StudentID | StudentName  | StudentSemester | SemesterEnrolled | Grade         | CourseTitle    
+----------+--------------+-----------------+------------------+---------------+----------------
+S101      | Aarav Sharma | 5               | 5                | Not Published | NoSQL Databases
+S104      | Sneha Roy    | 3               | 3                | Not Published | NoSQL Databases

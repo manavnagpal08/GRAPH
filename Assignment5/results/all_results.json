@@ -1,0 +1,424 @@
+{
+  "1": {
+    "title": "Task 1: Create all student, faculty, course, and department nodes with properties",
+    "description": "Verifies that all 5 Student, 2 Faculty, 5 Course, and 2 Department nodes (Total 14 nodes) were created with their given properties.",
+    "query": "MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS CreatedCount ORDER BY Label;",
+    "keys": [
+      "Label",
+      "CreatedCount"
+    ],
+    "rows": [
+      {
+        "Label": "Course",
+        "CreatedCount": 5
+      },
+      {
+        "Label": "Department",
+        "CreatedCount": 2
+      },
+      {
+        "Label": "Faculty",
+        "CreatedCount": 2
+      },
+      {
+        "Label": "Student",
+        "CreatedCount": 5
+      }
+    ],
+    "count": 4
+  },
+  "2": {
+    "title": "Task 2: Create all specified relationships with their appropriate directions",
+    "description": "Verifies creation and directions of all 26 relationships (11 ENROLLED_IN, 5 TEACHES, 5 BELONGS_TO, 5 OFFERS).",
+    "query": "MATCH (a)-[r]->(b) RETURN labels(a)[0] AS Source, type(r) AS Relationship, labels(b)[0] AS Target, count(r) AS Count ORDER BY Relationship;",
+    "keys": [
+      "Source",
+      "Relationship",
+      "Target",
+      "Count"
+    ],
+    "rows": [
+      {
+        "Source": "Student",
+        "Relationship": "BELONGS_TO",
+        "Target": "Department",
+        "Count": 5
+      },
+      {
+        "Source": "Student",
+        "Relationship": "ENROLLED_IN",
+        "Target": "Course",
+        "Count": 11
+      },
+      {
+        "Source": "Department",
+        "Relationship": "OFFERS",
+        "Target": "Course",
+        "Count": 5
+      },
+      {
+        "Source": "Faculty",
+        "Relationship": "TEACHES",
+        "Target": "Course",
+        "Count": 5
+      }
+    ],
+    "count": 4
+  },
+  "3": {
+    "title": "Task 3: Assign properties to the ENROLLED_IN and TEACHES relationships",
+    "description": "Verifies relationship properties (semesterEnrolled, grade on ENROLLED_IN and academicYear on TEACHES).",
+    "query": "MATCH ()-[r:ENROLLED_IN]->() RETURN DISTINCT r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade UNION ALL MATCH ()-[r2:TEACHES]->() RETURN DISTINCT r2.academicYear AS SemesterEnrolled, 'N/A' AS Grade;",
+    "keys": [
+      "SemesterEnrolled",
+      "Grade"
+    ],
+    "rows": [
+      {
+        "SemesterEnrolled": 5,
+        "Grade": "Not Published"
+      },
+      {
+        "SemesterEnrolled": 3,
+        "Grade": "Not Published"
+      },
+      {
+        "SemesterEnrolled": "2026-27",
+        "Grade": "N/A"
+      }
+    ],
+    "count": 3
+  },
+  "4": {
+    "title": "Task 4: Display the complete graph",
+    "description": "Returns all nodes and directed relationships forming the complete university graph.",
+    "query": "MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN count(DISTINCT n) AS TotalNodes, count(r) AS TotalRelationships;",
+    "keys": [
+      "TotalNodes",
+      "TotalRelationships"
+    ],
+    "rows": [
+      {
+        "TotalNodes": 14,
+        "TotalRelationships": 26
+      }
+    ],
+    "count": 1
+  },
+  "5": {
+    "title": "Task 5: Count the number of nodes belonging to each label",
+    "description": "Counts nodes grouped by label (Course: 5, Department: 2, Faculty: 2, Student: 5).",
+    "query": "MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS NodeCount ORDER BY Label;",
+    "keys": [
+      "Label",
+      "NodeCount"
+    ],
+    "rows": [
+      {
+        "Label": "Course",
+        "NodeCount": 5
+      },
+      {
+        "Label": "Department",
+        "NodeCount": 2
+      },
+      {
+        "Label": "Faculty",
+        "NodeCount": 2
+      },
+      {
+        "Label": "Student",
+        "NodeCount": 5
+      }
+    ],
+    "count": 4
+  },
+  "6": {
+    "title": "Task 6: Display all relationship types and verify their directions",
+    "description": "Confirms source and target labels for all 4 relationship types to verify directionality.",
+    "query": "MATCH (a)-[r]->(b) RETURN labels(a)[0] AS SourceNode, type(r) AS RelationshipType, labels(b)[0] AS TargetNode, count(r) AS Count ORDER BY RelationshipType, SourceNode;",
+    "keys": [
+      "SourceNode",
+      "RelationshipType",
+      "TargetNode",
+      "Count"
+    ],
+    "rows": [
+      {
+        "SourceNode": "Student",
+        "RelationshipType": "BELONGS_TO",
+        "TargetNode": "Department",
+        "Count": 5
+      },
+      {
+        "SourceNode": "Student",
+        "RelationshipType": "ENROLLED_IN",
+        "TargetNode": "Course",
+        "Count": 11
+      },
+      {
+        "SourceNode": "Department",
+        "RelationshipType": "OFFERS",
+        "TargetNode": "Course",
+        "Count": 5
+      },
+      {
+        "SourceNode": "Faculty",
+        "RelationshipType": "TEACHES",
+        "TargetNode": "Course",
+        "Count": 5
+      }
+    ],
+    "count": 4
+  },
+  "7": {
+    "title": "Task 7: Retrieve all students studying in Semester 5",
+    "description": "Filters students who are in semester 5 (Aarav Sharma, Priya Das, Arjun Patel).",
+    "query": "MATCH (s:Student) WHERE s.semester = 5 RETURN s.studentId AS StudentID, s.name AS Name, s.semester AS Semester, s.email AS Email ORDER BY s.studentId;",
+    "keys": [
+      "StudentID",
+      "Name",
+      "Semester",
+      "Email"
+    ],
+    "rows": [
+      {
+        "StudentID": "S101",
+        "Name": "Aarav Sharma",
+        "Semester": 5,
+        "Email": "aarav@univ.edu"
+      },
+      {
+        "StudentID": "S102",
+        "Name": "Priya Das",
+        "Semester": 5,
+        "Email": "priya@univ.edu"
+      },
+      {
+        "StudentID": "S105",
+        "Name": "Arjun Patel",
+        "Semester": 5,
+        "Email": "arjun@univ.edu"
+      }
+    ],
+    "count": 3
+  },
+  "8": {
+    "title": "Task 8: Find all courses with more than 3 credits",
+    "description": "Filters courses with credits > 3 (CS302 DBMS: 4, CS304 Big Data Analytics: 4).",
+    "query": "MATCH (c:Course) WHERE c.credits > 3 RETURN c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;",
+    "keys": [
+      "CourseCode",
+      "CourseTitle",
+      "Credits",
+      "Level"
+    ],
+    "rows": [
+      {
+        "CourseCode": "CS302",
+        "CourseTitle": "Database Management Systems",
+        "Credits": 4,
+        "Level": "Core"
+      },
+      {
+        "CourseCode": "CS304",
+        "CourseTitle": "Big Data Analytics",
+        "Credits": 4,
+        "Level": "Advanced"
+      }
+    ],
+    "count": 2
+  },
+  "9": {
+    "title": "Task 9: Retrieve the courses taught by Dr. Meera Sen",
+    "description": "Retrieves courses taught by Dr. Meera Sen (CS302 DBMS, CS305 NoSQL Databases).",
+    "query": "MATCH (f:Faculty {name: 'Dr. Meera Sen'})-[r:TEACHES]->(c:Course) RETURN f.name AS FacultyName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, r.academicYear AS AcademicYear ORDER BY c.courseCode;",
+    "keys": [
+      "FacultyName",
+      "CourseCode",
+      "CourseTitle",
+      "Credits",
+      "AcademicYear"
+    ],
+    "rows": [
+      {
+        "FacultyName": "Dr. Meera Sen",
+        "CourseCode": "CS302",
+        "CourseTitle": "Database Management Systems",
+        "Credits": 4,
+        "AcademicYear": "2026-27"
+      },
+      {
+        "FacultyName": "Dr. Meera Sen",
+        "CourseCode": "CS305",
+        "CourseTitle": "NoSQL Databases",
+        "Credits": 3,
+        "AcademicYear": "2026-27"
+      }
+    ],
+    "count": 2
+  },
+  "10": {
+    "title": "Task 10: Find all students enrolled in Graph Analytics",
+    "description": "Finds all students enrolled in CS301 Graph Analytics (Aarav Sharma, Priya Das, Arjun Patel).",
+    "query": "MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'Graph Analytics' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS CurrentSemester, c.courseTitle AS EnrolledCourse ORDER BY s.studentId;",
+    "keys": [
+      "StudentID",
+      "StudentName",
+      "CurrentSemester",
+      "EnrolledCourse"
+    ],
+    "rows": [
+      {
+        "StudentID": "S101",
+        "StudentName": "Aarav Sharma",
+        "CurrentSemester": 5,
+        "EnrolledCourse": "Graph Analytics"
+      },
+      {
+        "StudentID": "S102",
+        "StudentName": "Priya Das",
+        "CurrentSemester": 5,
+        "EnrolledCourse": "Graph Analytics"
+      },
+      {
+        "StudentID": "S105",
+        "StudentName": "Arjun Patel",
+        "CurrentSemester": 5,
+        "EnrolledCourse": "Graph Analytics"
+      }
+    ],
+    "count": 3
+  },
+  "11": {
+    "title": "Task 11: Display the names of all students belonging to the Computer Science department",
+    "description": "Lists students belonging to CS department (Aarav Sharma, Priya Das, Rahul Verma).",
+    "query": "MATCH (s:Student)-[:BELONGS_TO]->(d:Department) WHERE d.deptName = 'Computer Science' RETURN s.studentId AS StudentID, s.name AS StudentName, d.deptName AS DepartmentName, d.building AS Building ORDER BY s.studentId;",
+    "keys": [
+      "StudentID",
+      "StudentName",
+      "DepartmentName",
+      "Building"
+    ],
+    "rows": [
+      {
+        "StudentID": "S101",
+        "StudentName": "Aarav Sharma",
+        "DepartmentName": "Computer Science",
+        "Building": "Block A"
+      },
+      {
+        "StudentID": "S102",
+        "StudentName": "Priya Das",
+        "DepartmentName": "Computer Science",
+        "Building": "Block A"
+      },
+      {
+        "StudentID": "S103",
+        "StudentName": "Rahul Verma",
+        "DepartmentName": "Computer Science",
+        "Building": "Block A"
+      }
+    ],
+    "count": 3
+  },
+  "12": {
+    "title": "Task 12: Find all courses offered by the Information Technology department",
+    "description": "Lists courses offered by IT department (CS301 Graph Analytics, CS304 Big Data Analytics).",
+    "query": "MATCH (d:Department)-[:OFFERS]->(c:Course) WHERE d.deptName = 'Information Technology' RETURN d.deptName AS DepartmentName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;",
+    "keys": [
+      "DepartmentName",
+      "CourseCode",
+      "CourseTitle",
+      "Credits",
+      "Level"
+    ],
+    "rows": [
+      {
+        "DepartmentName": "Information Technology",
+        "CourseCode": "CS301",
+        "CourseTitle": "Graph Analytics",
+        "Credits": 3,
+        "Level": "Advanced"
+      },
+      {
+        "DepartmentName": "Information Technology",
+        "CourseCode": "CS304",
+        "CourseTitle": "Big Data Analytics",
+        "Credits": 4,
+        "Level": "Advanced"
+      }
+    ],
+    "count": 2
+  },
+  "13": {
+    "title": "Task 13: Retrieve all students enrolled in NoSQL Databases along with their semester and grade",
+    "description": "Retrieves students in CS305 NoSQL Databases with enrollment semester and grade (Aarav Sharma: Sem 5, Sneha Roy: Sem 3).",
+    "query": "MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'NoSQL Databases' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS StudentSemester, r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade, c.courseTitle AS CourseTitle ORDER BY s.studentId;",
+    "keys": [
+      "StudentID",
+      "StudentName",
+      "StudentSemester",
+      "SemesterEnrolled",
+      "Grade",
+      "CourseTitle"
+    ],
+    "rows": [
+      {
+        "StudentID": "S101",
+        "StudentName": "Aarav Sharma",
+        "StudentSemester": 5,
+        "SemesterEnrolled": 5,
+        "Grade": "Not Published",
+        "CourseTitle": "NoSQL Databases"
+      },
+      {
+        "StudentID": "S104",
+        "StudentName": "Sneha Roy",
+        "StudentSemester": 3,
+        "SemesterEnrolled": 3,
+        "Grade": "Not Published",
+        "CourseTitle": "NoSQL Databases"
+      }
+    ],
+    "count": 2
+  },
+  "14": {
+    "title": "Task 14: Find all students enrolled in both Graph Analytics and another course",
+    "description": "Retrieves students enrolled in Graph Analytics who are also taking at least one other course.",
+    "query": "MATCH (s:Student)-[:ENROLLED_IN]->(c1:Course {courseTitle: 'Graph Analytics'}), (s)-[:ENROLLED_IN]->(c2:Course) WHERE c1 <> c2 RETURN s.studentId AS StudentID, s.name AS StudentName, c1.courseTitle AS PrimaryCourse, c2.courseTitle AS OtherCourse ORDER BY s.studentId, c2.courseTitle;",
+    "keys": [
+      "StudentID",
+      "StudentName",
+      "PrimaryCourse",
+      "OtherCourse"
+    ],
+    "rows": [
+      {
+        "StudentID": "S101",
+        "StudentName": "Aarav Sharma",
+        "PrimaryCourse": "Graph Analytics",
+        "OtherCourse": "Database Management Systems"
+      },
+      {
+        "StudentID": "S101",
+        "StudentName": "Aarav Sharma",
+        "PrimaryCourse": "Graph Analytics",
+        "OtherCourse": "NoSQL Databases"
+      },
+      {
+        "StudentID": "S102",
+        "StudentName": "Priya Das",
+        "PrimaryCourse": "Graph Analytics",
+        "OtherCourse": "Data Mining"
+      },
+      {
+        "StudentID": "S105",
+        "StudentName": "Arjun Patel",
+        "PrimaryCourse": "Graph Analytics",
+        "OtherCourse": "Big Data Analytics"
+      }
+    ],
+    "count": 4
+  }
+}

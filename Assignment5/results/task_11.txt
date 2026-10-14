@@ -1,0 +1,12 @@
+Task 11: Display the names of all students belonging to the Computer Science department
+Description: Lists students belonging to CS department (Aarav Sharma, Priya Das, Rahul Verma).
+
+Cypher Query:
+MATCH (s:Student)-[:BELONGS_TO]->(d:Department) WHERE d.deptName = 'Computer Science' RETURN s.studentId AS StudentID, s.name AS StudentName, d.deptName AS DepartmentName, d.building AS Building ORDER BY s.studentId;
+
+Output (3 rows):
+StudentID | StudentName  | DepartmentName   | Building
+----------+--------------+------------------+---------
+S101      | Aarav Sharma | Computer Science | Block A 
+S102      | Priya Das    | Computer Science | Block A 
+S103      | Rahul Verma  | Computer Science | Block A 

@@ -1,0 +1,130 @@
+================================================================================
+ALLIANCE UNIVERSITY - ALLIANCE SCHOOL OF ADVANCED COMPUTING
+Graph Analytics Assignment 5: University Course Registration System Using Neo4j
+Student Name: Manav Nagpal | Reg No: 2411021060402
+================================================================================
+
+--- Task 1: Create all student, faculty, course, and department nodes with properties ---
+Query: MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS CreatedCount ORDER BY Label;
+Output (4 rows):
+Label      | CreatedCount
+-----------+-------------
+Course     | 5           
+Department | 2           
+Faculty    | 2           
+Student    | 5           
+
+--- Task 2: Create all specified relationships with their appropriate directions ---
+Query: MATCH (a)-[r]->(b) RETURN labels(a)[0] AS Source, type(r) AS Relationship, labels(b)[0] AS Target, count(r) AS Count ORDER BY Relationship;
+Output (4 rows):
+Source     | Relationship | Target     | Count
+-----------+--------------+------------+------
+Student    | BELONGS_TO   | Department | 5    
+Student    | ENROLLED_IN  | Course     | 11   
+Department | OFFERS       | Course     | 5    
+Faculty    | TEACHES      | Course     | 5    
+
+--- Task 3: Assign properties to the ENROLLED_IN and TEACHES relationships ---
+Query: MATCH ()-[r:ENROLLED_IN]->() RETURN DISTINCT r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade UNION ALL MATCH ()-[r2:TEACHES]->() RETURN DISTINCT r2.academicYear AS SemesterEnrolled, 'N/A' AS Grade;
+Output (3 rows):
+SemesterEnrolled | Grade        
+-----------------+--------------
+5                | Not Published
+3                | Not Published
+2026-27          | N/A          
+
+--- Task 4: Display the complete graph ---
+Query: MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN count(DISTINCT n) AS TotalNodes, count(r) AS TotalRelationships;
+Output (1 rows):
+TotalNodes | TotalRelationships
+-----------+-------------------
+14         | 26                
+
+--- Task 5: Count the number of nodes belonging to each label ---
+Query: MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS NodeCount ORDER BY Label;
+Output (4 rows):
+Label      | NodeCount
+-----------+----------
+Course     | 5        
+Department | 2        
+Faculty    | 2        
+Student    | 5        
+
+--- Task 6: Display all relationship types and verify their directions ---
+Query: MATCH (a)-[r]->(b) RETURN labels(a)[0] AS SourceNode, type(r) AS RelationshipType, labels(b)[0] AS TargetNode, count(r) AS Count ORDER BY RelationshipType, SourceNode;
+Output (4 rows):
+SourceNode | RelationshipType | TargetNode | Count
+-----------+------------------+------------+------
+Student    | BELONGS_TO       | Department | 5    
+Student    | ENROLLED_IN      | Course     | 11   
+Department | OFFERS           | Course     | 5    
+Faculty    | TEACHES          | Course     | 5    
+
+--- Task 7: Retrieve all students studying in Semester 5 ---
+Query: MATCH (s:Student) WHERE s.semester = 5 RETURN s.studentId AS StudentID, s.name AS Name, s.semester AS Semester, s.email AS Email ORDER BY s.studentId;
+Output (3 rows):
+StudentID | Name         | Semester | Email         
+----------+--------------+----------+---------------
+S101      | Aarav Sharma | 5        | aarav@univ.edu
+S102      | Priya Das    | 5        | priya@univ.edu
+S105      | Arjun Patel  | 5        | arjun@univ.edu
+
+--- Task 8: Find all courses with more than 3 credits ---
+Query: MATCH (c:Course) WHERE c.credits > 3 RETURN c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;
+Output (2 rows):
+CourseCode | CourseTitle                 | Credits | Level   
+-----------+-----------------------------+---------+---------
+CS302      | Database Management Systems | 4       | Core    
+CS304      | Big Data Analytics          | 4       | Advanced
+
+--- Task 9: Retrieve the courses taught by Dr. Meera Sen ---
+Query: MATCH (f:Faculty {name: 'Dr. Meera Sen'})-[r:TEACHES]->(c:Course) RETURN f.name AS FacultyName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, r.academicYear AS AcademicYear ORDER BY c.courseCode;
+Output (2 rows):
+FacultyName   | CourseCode | CourseTitle                 | Credits | AcademicYear
+--------------+------------+-----------------------------+---------+-------------
+Dr. Meera Sen | CS302      | Database Management Systems | 4       | 2026-27     
+Dr. Meera Sen | CS305      | NoSQL Databases             | 3       | 2026-27     
+
+--- Task 10: Find all students enrolled in Graph Analytics ---
+Query: MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'Graph Analytics' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS CurrentSemester, c.courseTitle AS EnrolledCourse ORDER BY s.studentId;
+Output (3 rows):
+StudentID | StudentName  | CurrentSemester | EnrolledCourse 
+----------+--------------+-----------------+----------------
+S101      | Aarav Sharma | 5               | Graph Analytics
+S102      | Priya Das    | 5               | Graph Analytics
+S105      | Arjun Patel  | 5               | Graph Analytics
+
+--- Task 11: Display the names of all students belonging to the Computer Science department ---
+Query: MATCH (s:Student)-[:BELONGS_TO]->(d:Department) WHERE d.deptName = 'Computer Science' RETURN s.studentId AS StudentID, s.name AS StudentName, d.deptName AS DepartmentName, d.building AS Building ORDER BY s.studentId;
+Output (3 rows):
+StudentID | StudentName  | DepartmentName   | Building
+----------+--------------+------------------+---------
+S101      | Aarav Sharma | Computer Science | Block A 
+S102      | Priya Das    | Computer Science | Block A 
+S103      | Rahul Verma  | Computer Science | Block A 
+
+--- Task 12: Find all courses offered by the Information Technology department ---
+Query: MATCH (d:Department)-[:OFFERS]->(c:Course) WHERE d.deptName = 'Information Technology' RETURN d.deptName AS DepartmentName, c.courseCode AS CourseCode, c.courseTitle AS CourseTitle, c.credits AS Credits, c.level AS Level ORDER BY c.courseCode;
+Output (2 rows):
+DepartmentName         | CourseCode | CourseTitle        | Credits | Level   
+-----------------------+------------+--------------------+---------+---------
+Information Technology | CS301      | Graph Analytics    | 3       | Advanced
+Information Technology | CS304      | Big Data Analytics | 4       | Advanced
+
+--- Task 13: Retrieve all students enrolled in NoSQL Databases along with their semester and grade ---
+Query: MATCH (s:Student)-[r:ENROLLED_IN]->(c:Course) WHERE c.courseTitle = 'NoSQL Databases' RETURN s.studentId AS StudentID, s.name AS StudentName, s.semester AS StudentSemester, r.semesterEnrolled AS SemesterEnrolled, r.grade AS Grade, c.courseTitle AS CourseTitle ORDER BY s.studentId;
+Output (2 rows):
+StudentID | StudentName  | StudentSemester | SemesterEnrolled | Grade         | CourseTitle    
+----------+--------------+-----------------+------------------+---------------+----------------
+S101      | Aarav Sharma | 5               | 5                | Not Published | NoSQL Databases
+S104      | Sneha Roy    | 3               | 3                | Not Published | NoSQL Databases
+
+--- Task 14: Find all students enrolled in both Graph Analytics and another course ---
+Query: MATCH (s:Student)-[:ENROLLED_IN]->(c1:Course {courseTitle: 'Graph Analytics'}), (s)-[:ENROLLED_IN]->(c2:Course) WHERE c1 <> c2 RETURN s.studentId AS StudentID, s.name AS StudentName, c1.courseTitle AS PrimaryCourse, c2.courseTitle AS OtherCourse ORDER BY s.studentId, c2.courseTitle;
+Output (4 rows):
+StudentID | StudentName  | PrimaryCourse   | OtherCourse                
+----------+--------------+-----------------+----------------------------
+S101      | Aarav Sharma | Graph Analytics | Database Management Systems
+S101      | Aarav Sharma | Graph Analytics | NoSQL Databases            
+S102      | Priya Das    | Graph Analytics | Data Mining                
+S105      | Arjun Patel  | Graph Analytics | Big Data Analytics         

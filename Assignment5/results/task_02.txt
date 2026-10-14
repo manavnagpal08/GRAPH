@@ -1,0 +1,13 @@
+Task 2: Create all specified relationships with their appropriate directions
+Description: Verifies creation and directions of all 26 relationships (11 ENROLLED_IN, 5 TEACHES, 5 BELONGS_TO, 5 OFFERS).
+
+Cypher Query:
+MATCH (a)-[r]->(b) RETURN labels(a)[0] AS Source, type(r) AS Relationship, labels(b)[0] AS Target, count(r) AS Count ORDER BY Relationship;
+
+Output (4 rows):
+Source     | Relationship | Target     | Count
+-----------+--------------+------------+------
+Student    | BELONGS_TO   | Department | 5    
+Student    | ENROLLED_IN  | Course     | 11   
+Department | OFFERS       | Course     | 5    
+Faculty    | TEACHES      | Course     | 5    

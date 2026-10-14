@@ -1,0 +1,13 @@
+Task 5: Count the number of nodes belonging to each label
+Description: Counts nodes grouped by label (Course: 5, Department: 2, Faculty: 2, Student: 5).
+
+Cypher Query:
+MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS NodeCount ORDER BY Label;
+
+Output (4 rows):
+Label      | NodeCount
+-----------+----------
+Course     | 5        
+Department | 2        
+Faculty    | 2        
+Student    | 5        

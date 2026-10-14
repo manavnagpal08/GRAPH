@@ -1,0 +1,13 @@
+Task 1: Create all student, faculty, course, and department nodes with properties
+Description: Verifies that all 5 Student, 2 Faculty, 5 Course, and 2 Department nodes (Total 14 nodes) were created with their given properties.
+
+Cypher Query:
+MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS CreatedCount ORDER BY Label;
+
+Output (4 rows):
+Label      | CreatedCount
+-----------+-------------
+Course     | 5           
+Department | 2           
+Faculty    | 2           
+Student    | 5           
